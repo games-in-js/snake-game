@@ -24,11 +24,27 @@ class Game {
     this.startGameLoop();
   }
 
+  reset() {
+    this.snake = new Snake();
+    this.food = new Food();
+    this.score = 0;
+    this.isPlaying = true;
+    this.isGameOver = false;
+  }
+
   setupControls() {
     document.addEventListener("keydown", (e) => {
-      if (!this.isPlaying && (e.code === "Enter" || e.code === "Space")) {
+      if (
+        !this.isPlaying &&
+        !this.isGameOver &&
+        (e.code === "Enter" || e.code === "Space")
+      ) {
         this.isPlaying = true;
         return;
+      }
+
+      if (this.isGameOver && (e.code === "Enter" || e.code === "Space")) {
+        this.reset();
       }
 
       if (this.isPlaying) {
