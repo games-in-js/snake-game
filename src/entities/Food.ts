@@ -12,11 +12,19 @@ export class Food {
     this.position = this.getRandomPosition();
   }
 
+  getPosition() {
+    return this.position;
+  }
+
   getRandomPosition(): Position {
     return {
       x: Math.floor(Math.random() * GRID_SIZE),
       y: Math.floor(Math.random() * GRID_SIZE),
     };
+  }
+
+  respawn() {
+    this.position = this.getRandomPosition();
   }
 
   draw(ctx: CanvasRenderingContext2D, cellSize: number) {

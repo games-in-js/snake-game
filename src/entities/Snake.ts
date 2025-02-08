@@ -19,16 +19,22 @@ export class Snake {
     this.nextDirection = { x: 1, y: 0 };
   }
 
+  getHead() {
+    return this.body[0];
+  }
+
+  removeTail() {
+    this.body.pop();
+  }
+
   move() {
     this.direction = this.nextDirection;
     const newHead = {
-      x: this.body[0].x + this.direction.x,
-      y: this.body[0].y + this.direction.y,
+      x: this.getHead().x + this.direction.x,
+      y: this.getHead().y + this.direction.y,
     };
     // moveu a cabeça
     this.body.unshift(newHead);
-    // remover o rabo
-    this.body.pop();
   }
 
   changeDirection(newDir: Position) {
@@ -43,8 +49,8 @@ export class Snake {
 
   checkCollisions(gridSize: number) {
     const nextHead = {
-      x: this.body[0].x + this.nextDirection.x,
-      y: this.body[0].y + this.nextDirection.y,
+      x: this.getHead().x + this.nextDirection.x,
+      y: this.getHead().y + this.nextDirection.y,
     };
 
     const hitWall =
