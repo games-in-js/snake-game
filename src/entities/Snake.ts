@@ -59,7 +59,11 @@ export class Snake {
       nextHead.y < 0 ||
       nextHead.y >= gridSize;
 
-    return hitWall;
+    const hitSelf = this.body.some(
+      (segment) => segment.x === nextHead.x && segment.y === nextHead.y
+    );
+
+    return hitWall || hitSelf;
   }
 
   draw(ctx: CanvasRenderingContext2D, cellSize: number) {
