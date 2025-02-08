@@ -5,6 +5,8 @@ type Position = {
 
 export class Snake {
   body: Array<Position>;
+  direction: Position;
+  nextDirection: Position;
 
   constructor() {
     this.body = [
@@ -12,6 +14,20 @@ export class Snake {
       { x: 9, y: 10 },
       { x: 8, y: 10 },
     ];
+
+    this.direction = { x: 1, y: 0 };
+    this.nextDirection = { x: 1, y: 0 };
+  }
+
+  move() {
+    const newHead = {
+      x: this.body[0].x + this.direction.x,
+      y: this.body[0].y + this.direction.y,
+    };
+    // moveu a cabeça
+    this.body.unshift(newHead);
+    // remover o rabo
+    this.body.pop();
   }
 
   draw(ctx: CanvasRenderingContext2D, cellSize: number) {

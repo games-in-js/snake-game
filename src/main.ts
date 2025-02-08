@@ -16,11 +16,7 @@ class Game {
     this.canvas.width = CANVAS_SIZE;
     this.canvas.height = CANVAS_SIZE;
 
-    this.drawGrid();
-
-    this.snake.draw(this.ctx, CELL_SIZE);
-
-    this.food.draw(this.ctx, CELL_SIZE);
+    this.startGameLoop();
   }
 
   drawGrid() {
@@ -43,6 +39,23 @@ class Game {
       this.ctx.lineTo(CANVAS_SIZE, i * CELL_SIZE);
       this.ctx.stroke();
     }
+  }
+
+  draw() {
+    this.drawGrid();
+
+    this.snake.draw(this.ctx, CELL_SIZE);
+
+    this.food.draw(this.ctx, CELL_SIZE);
+  }
+
+  update() {
+    this.draw();
+    this.snake.move();
+  }
+
+  startGameLoop() {
+    setInterval(() => this.update(), 100);
   }
 }
 
