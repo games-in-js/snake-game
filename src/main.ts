@@ -9,6 +9,7 @@ class Game {
   ctx: CanvasRenderingContext2D;
   snake = new Snake();
   food = new Food();
+  isPlaying = false;
 
   constructor() {
     this.canvas = document.getElementById("game-canvas") as HTMLCanvasElement;
@@ -22,6 +23,11 @@ class Game {
 
   setupControls() {
     document.addEventListener("keydown", (e) => {
+      if (!this.isPlaying && e.code === "Enter") {
+        this.isPlaying = true;
+        return;
+      }
+
       const newDirection = {
         ArrowUp: DIRECTIONS.UP,
         ArrowDown: DIRECTIONS.DOWN,
@@ -69,7 +75,10 @@ class Game {
   update() {
     this.draw();
 
+    if (!this.isPlaying) return;
+
     if (this.snake.checkCollisions(GRID_SIZE)) {
+      this.isPlaying = false;
       return;
     }
 
