@@ -30,6 +30,21 @@ export class Snake {
     this.body.pop();
   }
 
+  checkCollisions(gridSize: number) {
+    const nextHead = {
+      x: this.body[0].x + this.nextDirection.x,
+      y: this.body[0].y + this.nextDirection.y,
+    };
+
+    const hitWall =
+      nextHead.x >= gridSize ||
+      nextHead.x < 0 ||
+      nextHead.y < 0 ||
+      nextHead.y >= gridSize;
+
+    return hitWall;
+  }
+
   draw(ctx: CanvasRenderingContext2D, cellSize: number) {
     ctx.fillStyle = "#4CAF50";
     this.body.forEach((segment) => {

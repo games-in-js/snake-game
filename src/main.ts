@@ -51,6 +51,11 @@ class Game {
 
   update() {
     this.draw();
+
+    if (this.snake.checkCollisions(GRID_SIZE)) {
+      return;
+    }
+
     this.snake.move();
   }
 
