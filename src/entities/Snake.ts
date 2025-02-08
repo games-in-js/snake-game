@@ -20,6 +20,7 @@ export class Snake {
   }
 
   move() {
+    this.direction = this.nextDirection;
     const newHead = {
       x: this.body[0].x + this.direction.x,
       y: this.body[0].y + this.direction.y,
@@ -28,6 +29,16 @@ export class Snake {
     this.body.unshift(newHead);
     // remover o rabo
     this.body.pop();
+  }
+
+  changeDirection(newDir: Position) {
+    const isOpposite =
+      (newDir.x !== 0 && this.direction.x === -newDir.x) ||
+      (newDir.y !== 0 && this.direction.y === -newDir.y);
+
+    if (!isOpposite) {
+      this.nextDirection = newDir;
+    }
   }
 
   checkCollisions(gridSize: number) {
