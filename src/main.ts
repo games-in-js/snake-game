@@ -28,16 +28,18 @@ class Game {
         return;
       }
 
-      const newDirection = {
-        ArrowUp: DIRECTIONS.UP,
-        ArrowDown: DIRECTIONS.DOWN,
-        ArrowLeft: DIRECTIONS.LEFT,
-        ArrowRight: DIRECTIONS.RIGHT,
-      }[e.code];
+      if (this.isPlaying) {
+        const newDirection = {
+          ArrowUp: DIRECTIONS.UP,
+          ArrowDown: DIRECTIONS.DOWN,
+          ArrowLeft: DIRECTIONS.LEFT,
+          ArrowRight: DIRECTIONS.RIGHT,
+        }[e.code];
 
-      if (newDirection) {
-        // muda a direção da snake
-        this.snake.changeDirection(newDirection);
+        if (newDirection) {
+          // muda a direção da snake
+          this.snake.changeDirection(newDirection);
+        }
       }
     });
   }
