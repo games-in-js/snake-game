@@ -6,6 +6,7 @@ import { Food } from "./entities/Food";
 import { ScreenManager } from "./managers/ScreenManager";
 import grassSprite from "/images/grass.jpg";
 import snakeSprite from "/images/sprite_sheet.png";
+import { AudioManager } from "./managers/AudioManager";
 
 class Game {
   canvas = document.getElementById("game-canvas") as HTMLCanvasElement;
@@ -15,6 +16,7 @@ class Game {
   spriteSheet = new Image();
 
   screenManager = new ScreenManager(this.canvas, this.ctx);
+  audioManager = new AudioManager();
 
   snake = new Snake();
   food = new Food();
@@ -48,11 +50,14 @@ class Game {
         (e.code === "Enter" || e.code === "Space")
       ) {
         this.isPlaying = true;
+        this.audioManager.playMusic();
         return;
       }
 
       if (this.isGameOver && (e.code === "Enter" || e.code === "Space")) {
         this.reset();
+        this.audioManager.playMusic();
+        return;
       }
 
       if (this.isPlaying) {
@@ -131,6 +136,7 @@ class Game {
     if (this.snake.checkCollisions(GRID_SIZE)) {
       this.isPlaying = false;
       this.isGameOver = true;
+      this.audioManager.playGameOver();
       return;
     }
 
@@ -144,6 +150,7 @@ class Game {
     ) {
       this.score++;
       this.food.respawn();
+      this.audioManager.playEat();
     } else {
       this.snake.removeTail();
     }
