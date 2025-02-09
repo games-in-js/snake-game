@@ -101,7 +101,7 @@ class Game {
       this.ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
     }
 
-    this.snake.draw(this.ctx, CELL_SIZE);
+    this.snake.draw(this.ctx, this.spriteSheet);
 
     this.food.draw(this.ctx, this.spriteSheet);
 

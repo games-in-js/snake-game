@@ -1,3 +1,5 @@
+import { CELL_SIZE, SPRITE_SIZE, SPRITES } from "../constants";
+
 type Position = {
   x: number;
   y: number;
@@ -66,14 +68,66 @@ export class Snake {
     return hitWall || hitSelf;
   }
 
-  draw(ctx: CanvasRenderingContext2D, cellSize: number) {
-    ctx.fillStyle = "#4CAF50";
-    this.body.forEach((segment) => {
-      ctx.fillRect(
-        segment.x * cellSize,
-        segment.y * cellSize,
-        cellSize,
-        cellSize
+  getSegmentSprite(index: number) {
+    const prev = this.body[index - 1];
+    const current = this.body[index];
+    const next = this.body[index + 1];
+
+    // head
+    if (index === 0) {
+      if (this.direction.x === 1) return "head_right";
+      if (this.direction.x === -1) return "head_left";
+      if (this.direction.y === 1) return "head_down";
+      return "head_up";
+    }
+
+    // tail
+    if (index === this.body.length - 1) {
+      if (prev.x > current.x) return "tail_left";
+      if (prev.x < current.x) return "tail_right";
+      if (prev.y > current.y) return "tail_up";
+      return "tail_down";
+    }
+
+    // straight body parts
+    if (prev.x === next.x) return "body_vertical";
+    if (prev.y === next.y) return "body_horizontal";
+
+    // right to up
+    if (prev.x < current.x && next.y < current.y) return "body_topleft";
+    // down to left
+    if (prev.y < current.y && next.x < current.x) return "body_topleft";
+    // left to up
+    if (prev.x > current.x && next.y < current.y) return "body_topright";
+    // down to right
+    if (prev.y < current.y && next.x > current.x) return "body_topright";
+    // left to down
+    if (prev.x > current.x && next.y > current.y) return "body_bottomright";
+    // up to right
+    if (prev.y > current.y && next.x > current.x) return "body_bottomright";
+    // right to down
+    if (prev.x < current.x && next.y > current.y) return "body_bottomleft";
+    // up to left
+    if (prev.y > current.y && next.x < current.x) return "body_bottomleft";
+
+    return "body_horizontal";
+  }
+
+  draw(ctx: CanvasRenderingContext2D, spriteSheet: HTMLImageElement) {
+    this.body.forEach((segment, index) => {
+      const spriteType = this.getSegmentSprite(index);
+      const spriteCoords = SPRITES[spriteType];
+
+      ctx.drawImage(
+        spriteSheet,
+        spriteCoords.x,
+        spriteCoords.y,
+        SPRITE_SIZE,
+        SPRITE_SIZE,
+        segment.x * CELL_SIZE,
+        segment.y * CELL_SIZE,
+        CELL_SIZE,
+        CELL_SIZE
       );
     });
   }
